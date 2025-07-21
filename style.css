@@ -1,0 +1,336 @@
+:root {
+    --primary-color: #4a6fa5;
+    --secondary-color: #166088;
+    --accent-color: #4fc3f7;
+    --dark-color: #333;
+    --light-color: #f8f9fa;
+    --danger-color: #e63946;
+    --success-color: #2a9d8f;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+    background: white;
+    cursor: crosshair;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background-color: white;
+    padding: 8px 15px;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+}
+
+.tool-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 8px;
+    border-right: 1px solid #e0e0e0;
+}
+
+.tool-group:last-child {
+    border-right: none;
+}
+
+.tool-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--dark-color);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tool-btn:hover {
+    background-color: #f0f0f0;
+    color: var(--primary-color);
+}
+
+.tool-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tool-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.color-label, .size-label {
+    font-size: 16px;
+    color: var(--dark-color);
+    cursor: pointer;
+}
+
+#colorPicker {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+}
+
+#colorPicker::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+#colorPicker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+#brushSize {
+    width: 80px;
+    cursor: pointer;
+}
+
+#brushSizeValue {
+    font-size: 14px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .toolbar {
+        top: auto;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        transform: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-radius: 15px;
+    }
+    
+    .tool-group {
+        border-right: none;
+        padding: 0;
+    }
+}
+
+.main-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.left-toolbar {
+    width: 60px;
+    background-color: #2c3e50;
+    padding: 10px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 100;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.canvas-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background-color: #ecf0f1;
+    background-image: 
+        linear-gradient(#ddd 1px, transparent 1px),
+        linear-gradient(90deg, #ddd 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.right-panels {
+    width: 250px;
+    background-color: #34495e;
+    color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+}
+
+.panel {
+    background-color: #2c3e50;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.top-toolbar {
+    position: fixed;
+    top: 0;
+    left: 60px;
+    right: 250px;
+    background-color: #3498db;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.menu-group {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.zoom-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.color-presets {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.preset {
+    width: 100%;
+    height: 25px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 1px solid #7f8c8d;
+}
+
+.gradient-preview {
+    height: 30px;
+    width: 100%;
+    background: linear-gradient(to right, red, yellow);
+    border-radius: 3px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.layers-list {
+    margin-top: 10px;
+}
+
+.layer-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: #3d566e;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.layer-item.active {
+    background-color: #3498db;
+}
+
+.layer-visibility {
+    margin-right: 5px;
+}
+
+.stamp-library, .text-input-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2c3e50;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    display: none;
+}
+
+.stamps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.stamp-item {
+    width: 80px;
+    height: 80px;
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.text-input-modal textarea {
+    width: 100%;
+    height: 100px;
+    margin: 10px 0;
+    padding: 5px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+/* Add responsive styles */
+@media (max-width: 1200px) {
+    .right-panels {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .left-toolbar {
+        flex-direction: row;
+        width: 100%;
+        height: 60px;
+        bottom: 0;
+        top: auto;
+    }
+    
+    .right-panels {
+        display: none; /* Hide on mobile */
+    }
+    
+    .top-toolbar {
+        left: 0;
+        right: 0;
+    }
+    
+    .canvas-container {
+        margin-bottom: 60px;
+    }
+}

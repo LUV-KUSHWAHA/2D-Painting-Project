@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtCanvas Pro - Advanced Drawing App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Left Toolbar -->
+        <div class="left-toolbar">
+            <div class="tool-group">
+                <button id="penTool" class="tool-btn active" title="Pen (P)">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button id="brushTool" class="tool-btn" title="Brush (B)">
+                    <i class="fas fa-paint-brush"></i>
+                </button>
+                <button id="markerTool" class="tool-btn" title="Marker (M)">
+                    <i class="fas fa-highlighter"></i>
+                </button>
+                <button id="sprayTool" class="tool-btn" title="Spray (S)">
+                    <i class="fas fa-spray-can"></i>
+                </button>
+            </div>
+            
+            <div class="tool-group">
+                <button id="eraserTool" class="tool-btn" title="Eraser (E)">
+                    <i class="fas fa-eraser"></i>
+                </button>
+                <button id="bucketTool" class="tool-btn" title="Fill Tool (F)">
+                    <i class="fas fa-fill-drip"></i>
+                </button>
+                <button id="eyedropperTool" class="tool-btn" title="Eyedropper (I)">
+                    <i class="fas fa-eye-dropper"></i>
+                </button>
+            </div>
+            
+            <div class="tool-group">
+                <button id="lineTool" class="tool-btn" title="Line (L)">
+                    <i class="fas fa-slash"></i>
+                </button>
+                <button id="rectTool" class="tool-btn" title="Rectangle (R)">
+                    <i class="far fa-square"></i>
+                </button>
+                <button id="circleTool" class="tool-btn" title="Circle (C)">
+                    <i class="far fa-circle"></i>
+                </button>
+                <button id="polygonTool" class="tool-btn" title="Polygon (G)">
+                    <i class="fas fa-shapes"></i>
+                </button>
+            </div>
+            
+            <div class="tool-group">
+                <button id="textTool" class="tool-btn" title="Text (T)">
+                    <i class="fas fa-font"></i>
+                </button>
+                <button id="stampTool" class="tool-btn" title="Stamp (D)">
+                    <i class="far fa-images"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Canvas Area -->
+        <div class="canvas-container">
+            <canvas id="drawingCanvas"></canvas>
+            <div class="zoom-controls">
+                <button id="zoomIn" title="Zoom In (Ctrl++)"><i class="fas fa-search-plus"></i></button>
+                <span id="zoomLevel">100%</span>
+                <button id="zoomOut" title="Zoom Out (Ctrl+-)"><i class="fas fa-search-minus"></i></button>
+                <button id="resetZoom" title="Reset Zoom (Ctrl+0)"><i class="fas fa-expand"></i></button>
+            </div>
+        </div>
+
+        <!-- Right Panels -->
+        <div class="right-panels">
+            <!-- Color Panel -->
+            <div class="panel color-panel">
+                <h3>Color</h3>
+                <div class="color-options">
+                    <input type="color" id="colorPicker" value="#000000">
+                    <div class="color-presets">
+                        <div class="preset" style="background-color: #000000;"></div>
+                        <div class="preset" style="background-color: #ff0000;"></div>
+                        <div class="preset" style="background-color: #00ff00;"></div>
+                        <div class="preset" style="background-color: #0000ff;"></div>
+                        <div class="preset" style="background-color: #ffff00;"></div>
+                        <div class="preset" style="background-color: #ff00ff;"></div>
+                        <div class="preset" style="background-color: #00ffff;"></div>
+                        <div class="preset" style="background-color: #ffffff;"></div>
+                    </div>
+                    <div class="gradient-option">
+                        <label><input type="checkbox" id="useGradient"> Gradient</label>
+                        <div id="gradientPicker" class="gradient-preview"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layers Panel -->
+            <div class="panel layers-panel">
+                <h3>Layers <button id="addLayer"><i class="fas fa-plus"></i></button></h3>
+                <div class="layers-list" id="layersList">
+                    <!-- Layers will be added here dynamically -->
+                </div>
+            </div>
+
+            <!-- Properties Panel -->
+            <div class="panel properties-panel">
+                <h3>Properties</h3>
+                <div class="property-group">
+                    <label>Brush Size</label>
+                    <input type="range" id="brushSize" min="1" max="100" value="5">
+                    <span id="brushSizeValue">5</span>
+                </div>
+                <div class="property-group">
+                    <label>Opacity</label>
+                    <input type="range" id="opacity" min="1" max="100" value="100">
+                    <span id="opacityValue">100%</span>
+                </div>
+                <div class="property-group" id="textProperties">
+                    <label>Font Size</label>
+                    <input type="range" id="fontSize" min="8" max="72" value="16">
+                    <span id="fontSizeValue">16</span>
+                    <select id="fontFamily">
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                    </select>
+                </div>
+                <div class="property-group">
+                    <label><input type="checkbox" id="pressureSensitivity"> Pressure Sensitivity</label>
+                </div>
+                <div class="property-group">
+                    <label><input type="checkbox" id="symmetryMode"> Symmetry Mode</label>
+                    <select id="symmetryType" disabled>
+                        <option value="vertical">Vertical</option>
+                        <option value="horizontal">Horizontal</option>
+                        <option value="radial">Radial</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Toolbar -->
+        <div class="top-toolbar">
+            <div class="menu-group">
+                <button id="newCanvas">New</button>
+                <button id="saveCanvas">Save</button>
+                <button id="loadCanvas">Load</button>
+                <input type="file" id="fileInput" accept="image/png" style="display: none;">
+                <button id="exportCanvas">Export</button>
+            </div>
+            <div class="menu-group">
+                <button id="undoBtn" title="Undo (Ctrl+Z)"><i class="fas fa-undo"></i></button>
+                <button id="redoBtn" title="Redo (Ctrl+Y)"><i class="fas fa-redo"></i></button>
+                <button id="clearCanvas" title="Clear (Delete)"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="menu-group">
+                <button id="toggleGrid" title="Toggle Grid (Ctrl+G)"><i class="fas fa-border-all"></i></button>
+                <button id="toggleRulers" title="Toggle Rulers (Ctrl+R)"><i class="fas fa-ruler-combined"></i></button>
+            </div>
+            <div class="menu-group">
+                <select id="filterSelect">
+                    <option value="none">No Filter</option>
+                    <option value="grayscale">Grayscale</option>
+                    <option value="sepia">Sepia</option>
+                    <option value="invert">Invert</option>
+                    <option value="blur">Blur</option>
+                    <option value="sharpen">Sharpen</option>
+                </select>
+                <button id="applyFilter">Apply Filter</button>
+            </div>
+        </div>
+
+        <!-- Stamp Library (hidden by default) -->
+        <div class="stamp-library" id="stampLibrary">
+            <h3>Stamp Library <button id="closeStampLibrary"><i class="fas fa-times"></i></button></h3>
+            <div class="stamps-grid">
+                <!-- Stamps will be added here dynamically -->
+            </div>
+        </div>
+
+        <!-- Text Input Modal (hidden by default) -->
+        <div class="text-input-modal" id="textInputModal">
+            <h3>Enter Text</h3>
+            <textarea id="textInput" placeholder="Type your text here..."></textarea>
+            <div class="modal-buttons">
+                <button id="confirmText">OK</button>
+                <button id="cancelText">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
